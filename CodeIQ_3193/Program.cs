@@ -27,6 +27,12 @@ namespace CodeIQ_3193
             var primeNumbers = new List<int>();
             for (int i = min; i <= max; i++)
             {
+                if(i > target)
+                {
+                    // 合計値より大きい素数はすべて除外（処理速度のため）
+                    break;
+                }
+
                 if (isPrimeNumber(i))
                 {
                     // 素数のみ追加
@@ -38,10 +44,10 @@ namespace CodeIQ_3193
             for (int i = 1; i <= primeNumbers.Count; i++) // nC1 + nC2 + ... + nCn
             {
                 // 組み合わせを取得する（nCr）
-                List<List<int>> resultList = getCombination(primeNumbers, i);
-                foreach(List<int> result in resultList)
+                List<int> sumList = GetCombinationSum(primeNumbers, i, target);
+                foreach(int sum in sumList)
                 {
-                    if (result.Sum() == target)
+                    if (sum == target)
                     {
                         // 合計値と一致した
                         count++;
@@ -59,9 +65,9 @@ namespace CodeIQ_3193
         /// <param name="primeNumbers">素数のリスト</param>
         /// <param name="selectCnt">選択する数の個数</param>
         /// <returns></returns>
-        private static List<List<int>> getCombination(List<int> primeNumbers, int selectCnt)
+        private static List<int> GetCombinationSum(List<int> primeNumbers, int selectCnt, int target)
         {
-            var resultList = new List<List<int>>();
+            var resultList = new List<int>();
 
             for (int i = 0; i <= primeNumbers.Count - selectCnt; i++)
             {
@@ -71,19 +77,19 @@ namespace CodeIQ_3193
                 if (selectCnt == 1)
                 {
                     // 再帰終了
-                    resultList.Add(new List<int> { baseNum });
+                    resultList.Add(baseNum);
                 }
                 else
                 {
                     // 再帰的に組み合わせを取得する（nCr）
-                    List<List<int>> remainCombinationList = getCombination(remainPrimeNumbers, selectCnt - 1);
-                    foreach (List<int> list in remainCombinationList)
+                    List<int> remainCombinationSumList = GetCombinationSum(remainPrimeNumbers, selectCnt - 1, target);
+                    foreach (int sum in remainCombinationSumList)
                     {
-                        var result = new List<int>();
-                        result.Add(baseNum);
-                        result.AddRange(list);
-
-                        resultList.Add(result);
+                        if (baseNum + sum <= target)
+                        {
+                            // 合計値より小さい場合のみ追加（処理速度のため）
+                            resultList.Add(baseNum + sum);
+                        }
                     }
                 }
             }

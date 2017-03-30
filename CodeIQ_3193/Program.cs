@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace CodeIQ_3193
 {
+    /// <summary>
+    /// CodeIQ - 素数の足し算で
+    /// @Nabetani   鍋谷 武典さんからの問題
+    /// https://codeiq.jp/q/3193
+    /// </summary>
     class Program
     {
         static void Main(string[] args)
@@ -19,9 +24,9 @@ namespace CodeIQ_3193
             string input = Console.ReadLine();
             string[] inputParams = input.Split(new char[] {' '});
 
-            int target = int.Parse(inputParams[0]);
-            int min = int.Parse(inputParams[1]);
-            int max = int.Parse(inputParams[2]);
+            int target = int.Parse(inputParams[0]); // 合計値（求めるターゲットとなる数）
+            int min = int.Parse(inputParams[1]);    // 最小値
+            int max = int.Parse(inputParams[2]);    // 最大値
 
             // 素数の抽出
             var primeNumbers = new List<int>();
@@ -64,6 +69,7 @@ namespace CodeIQ_3193
         /// </summary>
         /// <param name="primeNumbers">素数のリスト</param>
         /// <param name="selectCnt">選択する数の個数</param>
+        /// <param name="target">合計値</param>
         /// <returns></returns>
         private static List<int> GetCombinationSum(List<int> primeNumbers, int selectCnt, int target)
         {
@@ -73,6 +79,12 @@ namespace CodeIQ_3193
             {
                 int baseNum = primeNumbers[i];
                 List<int> remainPrimeNumbers = primeNumbers.GetRange(i + 1, primeNumbers.Count - 1 - i);
+
+                if(baseNum > (target / selectCnt))
+                {
+                    // 基数が合計値/選択数を超える場合、以降の数はすべて合計値以上になるので選択を打ち切る（処理速度のため）
+                    break;
+                }
 
                 if (selectCnt == 1)
                 {

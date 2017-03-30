@@ -50,18 +50,13 @@ namespace CodeIQ_3193
             {
                 // 組み合わせを取得する（nCr）
                 List<int> sumList = GetCombinationSum(primeNumbers, i, target);
-                foreach(int sum in sumList)
-                {
-                    if (sum == target)
-                    {
-                        // 合計値と一致した
-                        count++;
-                    }
-                }
+
+                // 合計値に一致する件数を加算
+                count += sumList.Where(sum => sum == target).Count();
             }
 
             // 標準出力へ結果出力
-            Console.WriteLine(count.ToString().ToUpper());
+            Console.WriteLine(count.ToString());
         }
 
         /// <summary>

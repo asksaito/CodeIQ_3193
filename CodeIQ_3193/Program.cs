@@ -38,6 +38,7 @@ namespace CodeIQ_3193
                     break;
                 }
 
+                // 素数判定
                 if (isPrimeNumber(i))
                 {
                     // 素数のみ追加
@@ -51,7 +52,7 @@ namespace CodeIQ_3193
                 // 組み合わせを取得する（nCr）
                 List<int> sumList = GetCombinationSum(primeNumbers, i, target);
 
-                // 合計値に一致する件数を加算
+                // 合計値に一致する件数を集計
                 count += sumList.Where(sum => sum == target).Count();
             }
 

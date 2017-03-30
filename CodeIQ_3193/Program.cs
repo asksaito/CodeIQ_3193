@@ -111,6 +111,12 @@ namespace CodeIQ_3193
         /// <returns></returns>
         private static bool isPrimeNumber(int num)
         {
+            if(num <= 1)
+            {
+                // 1以下の数は素数ではない
+                return false;
+            }
+
             for(int i = 2; i < num; i++)
             {
                 if(num % i == 0)
